@@ -6,6 +6,12 @@
 
 **APIMagic** is a modern, modular, production-grade test and evaluation framework in Python designed specifically for LLM APIs, agents, and RAG pipelines.
 
+Author: Aaron Lee
+
+Questions?  Reach out to me if you have any questions or if you would like to learn more about this tech stack and automation framework.  I've included multiple types of AI agents and examples as a firestarter to get anyone interested up and running.  
+
+For issues you can file through Github as well. 
+
 It bridges the gap between conventional API testing and non-deterministic AI evaluation by providing:
 - **Declarative YAML/JSON test suites** for QA engineers and product teams.
 - **Fluent Pytest assertions (`assert_llm`)** for Python developers.
