@@ -1,0 +1,42 @@
+name: "Customer Support Quality Suite"
+description: "Evaluates conversational support responses, tone, and latency"
+
+defaults:
+  provider: "mock"
+  model: "gpt-4o-mini"
+  temperature: 0.1
+  trials: 2
+  pass_threshold: 1.0
+
+cases:
+  - id: "support_polite_greeting"
+    name: "Customer Greeting"
+    tags: ["support", "greeting"]
+    prompt: "Hi, I have a question about my subscription."
+    system: "You are a professional customer support assistant. Always be polite and offer assistance."
+    mock_response: "Hello! I would be delighted to assist you with your subscription questions. How can I help today?"
+    assertions:
+      - type: "contains"
+        expected: ["help", "assist"]
+        params:
+          match_all: false
+      - type: "not_contains"
+        expected: ["not my department", "go away"]
+      - type: "latency"
+        threshold: 1500
+      - type: "cost"
+        threshold: 0.005
+
+  - id: "support_password_reset"
+    name: "Password Reset Instructions"
+    tags: ["support", "auth"]
+    prompt: "I forgot my password, how can I reset it?"
+    context: "To reset your password, click 'Forgot Password' on the login screen, enter your email address, and click the link sent to your inbox."
+    mock_response: "To reset your password, go to the login screen, enter your registered email address, and follow the link sent to your inbox."
+    assertions:
+      - type: "contains"
+        expected: ["login screen", "email"]
+        params:
+          match_all: false
+      - type: "faithfulness"
+        threshold: 0.50

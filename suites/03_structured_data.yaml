@@ -1,0 +1,24 @@
+name: "Structured Output & JSON Schema Suite"
+description: "Tests LLM JSON mode adherence and strict schema compliance"
+
+defaults:
+  provider: "mock"
+  model: "gpt-4o"
+  trials: 1
+
+cases:
+  - id: "json_user_extraction"
+    name: "User Entity Extraction"
+    tags: ["structured", "json"]
+    prompt: "Extract the name and age from this text: 'Jane Doe is a 29 year old software engineer living in Austin'."
+    response_format:
+      type: "json_object"
+    mock_response: '{"name": "Jane Doe", "age": 29, "occupation": "software engineer", "city": "Austin"}'
+    assertions:
+      - type: "json_schema"
+        expected:
+          type: "object"
+          required: ["name", "age"]
+      - type: "token_budget"
+        params:
+          max_total_tokens: 300

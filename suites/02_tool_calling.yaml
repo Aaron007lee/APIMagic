@@ -1,0 +1,59 @@
+name: "Function & Tool Calling Verification Suite"
+description: "Tests LLM ability to select correct tools and generate valid parameters"
+
+defaults:
+  provider: "mock"
+  model: "gpt-4o"
+  trials: 1
+
+cases:
+  - id: "tool_stock_price"
+    name: "Stock Price Tool Invocation"
+    tags: ["tools", "finance"]
+    prompt: "What is Apple's current stock price?"
+    tools:
+      - type: "function"
+        function:
+          name: "get_stock_quote"
+          description: "Retrieve real-time stock quote for a ticker symbol"
+          parameters:
+            type: "object"
+            properties:
+              ticker:
+                type: "string"
+            required: ["ticker"]
+    mock_tool_calls:
+      - name: "get_stock_quote"
+        arguments:
+          ticker: "AAPL"
+    assertions:
+      - type: "tool_call"
+        expected: "get_stock_quote"
+
+  - id: "tool_calculator"
+    name: "Math Calculator Tool Invocation"
+    tags: ["tools", "math"]
+    prompt: "Compute 452 multiplied by 18"
+    tools:
+      - type: "function"
+        function:
+          name: "calculate"
+          description: "Performs mathematical operations"
+          parameters:
+            type: "object"
+            properties:
+              operation:
+                type: "string"
+              a:
+                type: "number"
+              b:
+                type: "number"
+    mock_tool_calls:
+      - name: "calculate"
+        arguments:
+          operation: "multiply"
+          a: 452
+          b: 18
+    assertions:
+      - type: "tool_call"
+        expected: "calculate"

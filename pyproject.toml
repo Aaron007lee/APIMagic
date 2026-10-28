@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "apimagic"
+version = "0.1.0"
+description = "A comprehensive, extensible LLM API Testing and Evaluation Framework in Python"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "APIMagic Team"}
+]
+keywords = [
+    "llm", "testing", "evals", "openai", "anthropic", "gemini",
+    "qa", "api-testing", "prompt-engineering", "rag-evaluation"
+]
+dependencies = [
+    "httpx>=0.27.0",
+    "pydantic>=2.6.0",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "rich>=13.7.0",
+    "pyyaml>=6.0.1",
+    "jinja2>=3.1.3"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio"
+]
+
+[project.scripts]
+apimagic = "apimagic.cli:main"
+llm-test = "apimagic.cli:main"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]

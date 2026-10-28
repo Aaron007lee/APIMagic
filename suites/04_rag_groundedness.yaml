@@ -1,0 +1,22 @@
+name: "RAG Faithfulness & Hallucination Detection Suite"
+description: "Verifies responses are strictly grounded in retrieval context"
+
+defaults:
+  provider: "mock"
+  model: "gpt-4o"
+  trials: 1
+
+cases:
+  - id: "rag_product_specs"
+    name: "Product Battery Life Inquiry"
+    tags: ["rag", "groundedness"]
+    prompt: "How long does the battery last on the UltraBook Pro?"
+    context: "The UltraBook Pro features a 70Wh battery capable of up to 14 hours of continuous video playback on a single charge."
+    mock_response: "The UltraBook Pro battery provides up to 14 hours of continuous video playback on a single charge with its 70Wh battery."
+    assertions:
+      - type: "contains"
+        expected: ["14 hours"]
+      - type: "faithfulness"
+        threshold: 0.55
+      - type: "not_contains"
+        expected: ["20 hours", "all day", "forever"]
